@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Fragment, useEffect, useState } from 'react';
+import AppLoading from 'expo-app-loading';
+import { StatusBar } from 'react-native';
+import { useFonts, Jost_400Regular, Jost_600SemiBold } from '@expo-google-fonts/jost';
+
+import Routes from './src/routes';
+import { getUsername } from './src/utils/Storage';
+
+interface PayloadAppData {
+  username?: string;
+}
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+  const [payloadAppData, setPayloadAppData] = useState<PayloadAppData>();
+  const [fontsLoaded] = useFonts({ Jost_400Regular, Jost_600SemiBold });
+
+  useEffect(() => {
+    (async () => {
+      const payload = await Promise.all([
+        getUsername()
+      ]);
+
+      setPayloadAppData({
+        ...payload[0] ? { username: payload[0] } : {}
+      });
+    })();
+  }, []);
+
+  if (!fontsLoaded) return (
+    <AppLoading />
+  ); else return (
+    <Fragment>
+      <Routes initialRouter={payloadAppData?.username ? "MyPlants" : undefined} />
+      <StatusBar translucent barStyle='dark-content' backgroundColor="transparent" />
+    </Fragment>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
