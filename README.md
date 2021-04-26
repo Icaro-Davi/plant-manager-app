@@ -1,7 +1,7 @@
 # Plant Manager App
 
 The app is made using React Native with expo to remind users to water your plants. 
-This code was made durnign the 5° edition of next level weekend by [Rocketseat](https://rocketseat.com.br/).
+This code was made durnign the 5° edition of next level week (NLW) by [Rocketseat](https://rocketseat.com.br/).
 
 # Run
 - Install [expo](https://docs.expo.io/get-started/installation/) in your computer.
